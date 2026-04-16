@@ -1,0 +1,13 @@
+User-agent: *
+Allow: /
+
+# Bloquear archivos de configuración y backend
+Disallow: /api/
+Disallow: /.env
+Disallow: /node_modules/
+Disallow: /server.js
+Disallow: /package.json
+Disallow: /package-lock.json
+
+# Sitemap
+Sitemap: https://www.yrsolutions.com.ar/sitemap.xml
