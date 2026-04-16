@@ -675,16 +675,16 @@ const FormValidator = (function () {
   const container = document.querySelector('.neon-laser-bg');
   if (!container) return;
 
-  // Configuración de los rayos adicionales: más rayos con variedad de colores neon
+  // Configuración de los rayos adicionales: rayos marinos en turquesa/azul/cyan
   const rays = [
-    // Rayos principales (violeta/azul)
-    { left: '30%',  angle: -45, color: '168, 85, 247',  duration: '14s', delay: '1s',  maxOpacity: 0.22 },
-    { left: '85%',  angle: -28, color: '99,  102, 241', duration: '10s', delay: '4s',  maxOpacity: 0.18 },
-    { left: '15%',  angle: -55, color: '232, 121, 249', duration: '17s', delay: '7s',  maxOpacity: 0.15 },
-    // Rayos adicionales (neon azul + verde)
-    { left: '60%',  angle: -38, color: '0, 212, 255',   duration: '12s', delay: '2s',  maxOpacity: 0.2  },
-    { left: '25%',  angle: -50, color: '0, 255, 136',   duration: '18s', delay: '6s',  maxOpacity: 0.16 },
-    { left: '75%',  angle: -22, color: '34, 211, 238',  duration: '15s', delay: '5s',  maxOpacity: 0.17 },
+    // Rayos principales (turquesa/azul)
+    { left: '30%',  angle: -45, color: '6, 182, 212',   duration: '14s', delay: '1s',  maxOpacity: 0.22 },
+    { left: '85%',  angle: -28, color: '14, 165, 233',  duration: '10s', delay: '4s',  maxOpacity: 0.18 },
+    { left: '15%',  angle: -55, color: '34, 211, 238',  duration: '17s', delay: '7s',  maxOpacity: 0.15 },
+    // Rayos adicionales (azul profundo + cyan brillante)
+    { left: '60%',  angle: -38, color: '3, 105, 161',   duration: '12s', delay: '2s',  maxOpacity: 0.2  },
+    { left: '25%',  angle: -50, color: '0, 229, 255',   duration: '18s', delay: '6s',  maxOpacity: 0.16 },
+    { left: '75%',  angle: -22, color: '103, 232, 249', duration: '15s', delay: '5s',  maxOpacity: 0.17 },
   ];
 
   rays.forEach(cfg => {
@@ -783,15 +783,15 @@ const FormValidator = (function () {
       height: 200px;
       background: linear-gradient(180deg,
         transparent 0%,
-        rgba(0, 212, 255, 0.3) 30%,
-        rgba(168, 85, 247, 0.4) 50%,
-        rgba(0, 255, 136, 0.2) 70%,
+        rgba(6, 182, 212, 0.3) 30%,
+        rgba(14, 165, 233, 0.4) 50%,
+        rgba(103, 232, 249, 0.2) 70%,
         transparent 100%
       );
       transform: rotate(${cfg.angle}deg);
       filter: blur(2px);
       pointer-events: none;
-      box-shadow: 0 0 8px 1px rgba(0, 212, 255, 0.2);
+      box-shadow: 0 0 8px 1px rgba(6, 182, 212, 0.2);
       animation: laserFadeInOut ${cfg.duration} ease-in-out infinite ${cfg.delay};
       will-change: opacity;
     `;
@@ -839,11 +839,11 @@ const FormValidator = (function () {
   if (prefersReduced) return;
 
   const PARTICLE_COLORS = [
-    'rgba(0, 212, 255, 0.8)',   // neon blue
-    'rgba(0, 255, 136, 0.7)',   // neon green
-    'rgba(168, 85, 247, 0.7)',  // violet
-    'rgba(192, 132, 252, 0.6)', // purple
-    'rgba(34, 211, 238, 0.6)',  // cyan
+    'rgba(6, 182, 212, 0.8)',   // turquoise
+    'rgba(0, 229, 255, 0.7)',   // cyan brillante
+    'rgba(14, 165, 233, 0.7)',  // azul claro
+    'rgba(103, 232, 249, 0.6)', // cyan claro
+    'rgba(3, 105, 161, 0.6)',   // azul profundo
   ];
 
   const PARTICLE_COUNT = 28;

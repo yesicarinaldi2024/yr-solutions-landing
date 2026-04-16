@@ -10,4 +10,4 @@ Disallow: /package.json
 Disallow: /package-lock.json
 
 # Sitemap
-Sitemap: https://www.yrsolutions.com.ar/sitemap.xml
+Sitemap: https://www.waveautomations.com.ar/sitemap.xml

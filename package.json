@@ -1,7 +1,7 @@
 {
-  "name": "yr-solutions-landing",
+  "name": "wave-automations-landing",
   "version": "1.0.0",
-  "description": "Landing page + servidor de email para YR Solutions — Automatización de Procesos",
+  "description": "Landing page + servidor de email para Wave Automations — Automatización de Procesos e Innovación",
   "main": "server.js",
   "engines": {
     "node": ">=18.0.0"

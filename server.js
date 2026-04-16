@@ -1,5 +1,5 @@
 /**
- * YR Solutions — Servidor de Email (Backend)
+ * Wave Automations — Servidor de Email (Backend)
  *
  * Stack: Node.js + Express + Nodemailer
  * Principios aplicados (CLAUDE.md):
@@ -228,12 +228,12 @@ app.post('/api/contact', contactLimiter, async (req, res) => {
   const service = sanitize(req.body.service || '');
   const message = sanitize(req.body.message);
 
-  // Construir el email de notificación para YR Solutions
+  // Construir el email de notificación para Wave Automations
   const mailToAdmin = {
-    from:    `"YR Solutions — Formulario Web" <${process.env.EMAIL_USER}>`,
+    from:    `"Wave Automations — Formulario Web" <${process.env.EMAIL_USER}>`,
     to:      process.env.EMAIL_TO,
     replyTo: email,
-    subject: `[YR Solutions] Nuevo contacto: ${name}${company ? ` · ${company}` : ''}`,
+    subject: `[Wave Automations] Nuevo contacto: ${name}${company ? ` · ${company}` : ''}`,
     text: [
       `Nuevo mensaje recibido desde el formulario de contacto.`,
       ``,
@@ -272,7 +272,7 @@ app.post('/api/contact', contactLimiter, async (req, res) => {
       </head>
       <body>
         <div class="card">
-          <div class="badge">📩 Nuevo contacto — YR Solutions</div>
+          <div class="badge">📩 Nuevo contacto — Wave Automations</div>
           <h1>Nuevo mensaje desde el formulario web</h1>
           <div class="field"><div class="label">Nombre</div><div class="value">${name}</div></div>
           <div class="field"><div class="label">Email</div><div class="value"><a href="mailto:${email}">${email}</a></div></div>
@@ -294,7 +294,7 @@ app.post('/api/contact', contactLimiter, async (req, res) => {
 
   // Email de confirmación automática para el contacto
   const mailToContact = {
-    from:    `"YR Solutions" <${process.env.EMAIL_USER}>`,
+    from:    `"Wave Automations" <${process.env.EMAIL_USER}>`,
     to:      email,
     subject: `Recibimos tu mensaje, ${name.split(' ')[0]} 👋`,
     text: [
@@ -304,10 +304,10 @@ app.post('/api/contact', contactLimiter, async (req, res) => {
       ``,
       `Mientras tanto, podés revisar nuestros servicios en: https://www.yrsolutions.com.ar`,
       ``,
-      `¡Gracias por confiar en YR Solutions!`,
+      `¡Gracias por confiar en Wave Automations!`,
       ``,
       `—`,
-      `El equipo de YR Solutions`,
+      `El equipo de Wave Automations`,
       `hola@yrsolutions.com.ar`,
     ].join('\n'),
     html: `
@@ -327,14 +327,14 @@ app.post('/api/contact', contactLimiter, async (req, res) => {
       </head>
       <body>
         <div class="card">
-          <div class="logo">YR Solutions</div>
+          <div class="logo">Wave Automations</div>
           <h1>¡Recibimos tu mensaje! 🚀</h1>
           <p>Hola <strong>${name.split(' ')[0]}</strong>,</p>
           <p>Gracias por contactarnos. Recibimos tu consulta y uno de nuestros especialistas se pondrá en contacto contigo en <strong>menos de 24 horas hábiles</strong>.</p>
           <p>Mientras tanto, podés explorar nuestros servicios y casos de éxito en nuestra web.</p>
           <a href="https://www.yrsolutions.com.ar" class="btn">Ver nuestros servicios →</a>
           <div class="footer">
-            © 2025 YR Solutions · <a href="mailto:hola@yrsolutions.com.ar" style="color:#a855f7">hola@yrsolutions.com.ar</a><br/>
+            © 2025 Wave Automations · <a href="mailto:hola@yrsolutions.com.ar" style="color:#a855f7">hola@yrsolutions.com.ar</a><br/>
             Argentina · Trabajo remoto global
           </div>
         </div>
@@ -387,7 +387,7 @@ app.use((err, req, res, _next) => {
 
 // ─── Iniciar servidor ────────────────────────────────────────────────
 app.listen(PORT, () => {
-  console.info(`\n✅ YR Solutions — Servidor iniciado`);
+  console.info(`\n✅ Wave Automations — Servidor iniciado`);
   console.info(`   Entorno:  ${NODE_ENV}`);
   console.info(`   Puerto:   ${PORT}`);
   console.info(`   URL:      http://localhost:${PORT}`);
