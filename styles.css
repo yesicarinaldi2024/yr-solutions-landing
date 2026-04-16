@@ -870,6 +870,7 @@ h3 { font-size: 1.35rem; }
 .technology {
   position: relative;
   padding: var(--section-py) 0;
+  overflow: hidden;
 }
 .technology .container { position: relative; z-index: 1; }
 
@@ -1706,17 +1707,31 @@ h3 { font-size: 1.35rem; }
 }
 
 @keyframes laserPulse1 {
-  0%   { opacity: 0.3; transform: rotate(-35deg) scaleX(1); }
-  30%  { opacity: 0.7; transform: rotate(-35deg) scaleX(1.4); }
-  60%  { opacity: 0.4; transform: rotate(-35deg) scaleX(0.9); }
-  100% { opacity: 0.3; transform: rotate(-35deg) scaleX(1); }
+  0%   { opacity: 0.0;  transform: rotate(-35deg) scaleX(1); }
+  15%  { opacity: 0.4;  transform: rotate(-35deg) scaleX(1.2); }
+  30%  { opacity: 0.7;  transform: rotate(-35deg) scaleX(1.4); }
+  50%  { opacity: 0.5;  transform: rotate(-35deg) scaleX(1.1); }
+  60%  { opacity: 0.4;  transform: rotate(-35deg) scaleX(0.9); }
+  85%  { opacity: 0.1;  transform: rotate(-35deg) scaleX(0.8); }
+  100% { opacity: 0.0;  transform: rotate(-35deg) scaleX(1); }
 }
 
 @keyframes laserPulse2 {
-  0%   { opacity: 0.2; transform: rotate(-20deg) scaleX(1); }
+  0%   { opacity: 0.0;  transform: rotate(-20deg) scaleX(1); }
+  25%  { opacity: 0.35; transform: rotate(-20deg) scaleX(1.4); }
   40%  { opacity: 0.55; transform: rotate(-20deg) scaleX(1.6); }
+  60%  { opacity: 0.3;  transform: rotate(-20deg) scaleX(1); }
   70%  { opacity: 0.25; transform: rotate(-20deg) scaleX(0.8); }
-  100% { opacity: 0.2; transform: rotate(-20deg) scaleX(1); }
+  100% { opacity: 0.0;  transform: rotate(-20deg) scaleX(1); }
+}
+
+@keyframes laserFadeInOut {
+  0%   { opacity: 0.0; }
+  10%  { opacity: 0.5; }
+  30%  { opacity: 1.0; }
+  50%  { opacity: 0.8; }
+  70%  { opacity: 0.3; }
+  100% { opacity: 0.0; }
 }
 
 /* Líneas horizontales neon estilo scan */

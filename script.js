@@ -675,11 +675,16 @@ const FormValidator = (function () {
   const container = document.querySelector('.neon-laser-bg');
   if (!container) return;
 
-  // Configuración de los rayos adicionales
+  // Configuración de los rayos adicionales: más rayos con variedad de colores neon
   const rays = [
+    // Rayos principales (violeta/azul)
     { left: '30%',  angle: -45, color: '168, 85, 247',  duration: '14s', delay: '1s',  maxOpacity: 0.22 },
     { left: '85%',  angle: -28, color: '99,  102, 241', duration: '10s', delay: '4s',  maxOpacity: 0.18 },
     { left: '15%',  angle: -55, color: '232, 121, 249', duration: '17s', delay: '7s',  maxOpacity: 0.15 },
+    // Rayos adicionales (neon azul + verde)
+    { left: '60%',  angle: -38, color: '0, 212, 255',   duration: '12s', delay: '2s',  maxOpacity: 0.2  },
+    { left: '25%',  angle: -50, color: '0, 255, 136',   duration: '18s', delay: '6s',  maxOpacity: 0.16 },
+    { left: '75%',  angle: -22, color: '34, 211, 238',  duration: '15s', delay: '5s',  maxOpacity: 0.17 },
   ];
 
   rays.forEach(cfg => {
@@ -705,10 +710,12 @@ const FormValidator = (function () {
     if (!prefersReduced) container.appendChild(ray);
   });
 
-  // Scanlines horizontales: 2 líneas que recorren la pantalla
+  // Scanlines horizontales: 4 líneas animadas con fade in/out
   const scanlineConfigs = [
     { duration: '16s', delay: '0s'  },
     { duration: '22s', delay: '8s'  },
+    { duration: '20s', delay: '4s'  },
+    { duration: '18s', delay: '10s' },
   ];
 
   scanlineConfigs.forEach(cfg => {
@@ -746,6 +753,50 @@ const FormValidator = (function () {
 
   const container = document.querySelector('.tech-logos');
   if (container) observer.observe(container);
+})();
+
+/* ─────────────────────────────────────────────────────────────────────
+   MÓDULO: TECH SECTION RAYS — rayos decorativos con fade en tecnología
+   Genera rayos adicionales con efecto fade in/out en la sección de tech
+   ───────────────────────────────────────────────────────────────────── */
+(function initTechSectionRays() {
+  const techSection = document.querySelector('.technology');
+  if (!techSection) return;
+
+  const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (prefersReduced) return;
+
+  const rayConfigs = [
+    { top: '15%',  left: '20%', angle: -30, duration: '11s', delay: '0s'  },
+    { top: '45%',  left: '85%', angle: -50, duration: '13s', delay: '3s'  },
+    { top: '70%',  left: '10%', angle: -25, duration: '15s', delay: '6s'  },
+    { top: '35%',  left: '75%', angle: -45, duration: '14s', delay: '2s'  },
+  ];
+
+  rayConfigs.forEach(cfg => {
+    const ray = document.createElement('div');
+    ray.style.cssText = `
+      position: absolute;
+      top: ${cfg.top};
+      left: ${cfg.left};
+      width: 1px;
+      height: 200px;
+      background: linear-gradient(180deg,
+        transparent 0%,
+        rgba(0, 212, 255, 0.3) 30%,
+        rgba(168, 85, 247, 0.4) 50%,
+        rgba(0, 255, 136, 0.2) 70%,
+        transparent 100%
+      );
+      transform: rotate(${cfg.angle}deg);
+      filter: blur(2px);
+      pointer-events: none;
+      box-shadow: 0 0 8px 1px rgba(0, 212, 255, 0.2);
+      animation: laserFadeInOut ${cfg.duration} ease-in-out infinite ${cfg.delay};
+      will-change: opacity;
+    `;
+    techSection.appendChild(ray);
+  });
 })();
 
 /* ─────────────────────────────────────────────────────────────────────
