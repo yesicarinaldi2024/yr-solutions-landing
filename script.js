@@ -747,3 +747,77 @@ const FormValidator = (function () {
   const container = document.querySelector('.tech-logos');
   if (container) observer.observe(container);
 })();
+
+/* ─────────────────────────────────────────────────────────────────────
+   MÓDULO: INNOVATION PARALLAX
+   Efecto parallax en la sección de innovación:
+   - La escena de fondo se mueve a 0.4x la velocidad del scroll
+   - Partículas flotantes en paleta violeta / azul neon / verde neon
+   - Respeta prefers-reduced-motion
+   ───────────────────────────────────────────────────────────────────── */
+(function initInnovationParallax() {
+  const section = document.getElementById('innovation-parallax');
+  const scene   = document.getElementById('parallax-scene');
+  if (!section || !scene) return;
+
+  const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // ── Parallax scroll ──────────────────────────────────────────────
+  if (!prefersReduced) {
+    let ticking = false;
+
+    function updateParallax() {
+      const rect   = section.getBoundingClientRect();
+      const center = rect.top + rect.height / 2 - window.innerHeight / 2;
+      // Factor 0.35: la escena se mueve 35% de la distancia del scroll
+      scene.style.transform = `translateY(${center * 0.35}px)`;
+      ticking = false;
+    }
+
+    window.addEventListener('scroll', () => {
+      if (!ticking) {
+        requestAnimationFrame(updateParallax);
+        ticking = true;
+      }
+    }, { passive: true });
+
+    updateParallax(); // estado inicial
+  }
+
+  // ── Partículas flotantes ─────────────────────────────────────────
+  if (prefersReduced) return;
+
+  const PARTICLE_COLORS = [
+    'rgba(0, 212, 255, 0.8)',   // neon blue
+    'rgba(0, 255, 136, 0.7)',   // neon green
+    'rgba(168, 85, 247, 0.7)',  // violet
+    'rgba(192, 132, 252, 0.6)', // purple
+    'rgba(34, 211, 238, 0.6)',  // cyan
+  ];
+
+  const PARTICLE_COUNT = 28;
+
+  for (let i = 0; i < PARTICLE_COUNT; i++) {
+    const p = document.createElement('div');
+    p.className = 'parallax-particle';
+
+    const color    = PARTICLE_COLORS[i % PARTICLE_COLORS.length];
+    const size     = (1.5 + Math.random() * 3).toFixed(1);
+    const left     = (5 + Math.random() * 90).toFixed(1);
+    const bottom   = (Math.random() * 100).toFixed(1);
+    const duration = (6 + Math.random() * 12).toFixed(1);
+    const delay    = (Math.random() * 10).toFixed(1);
+
+    p.style.cssText = `
+      left: ${left}%;
+      bottom: ${bottom}%;
+      width: ${size}px;
+      height: ${size}px;
+      background: ${color};
+      box-shadow: 0 0 ${parseFloat(size) * 3}px ${color};
+      --pr-dur: ${duration}s;
+      --pr-delay: -${delay}s;
+    `;
+    section.appendChild(p);
+  }
+})();

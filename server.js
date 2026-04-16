@@ -45,22 +45,57 @@ const app = express();
 // ─── Middlewares de seguridad ─────────────────────────────────────────
 // Cabeceras HTTP de seguridad (CLAUDE.md §6)
 app.use(helmet({
-  contentSecurityPolicy: false, // Lo maneja el frontend
+  // Content-Security-Policy: restringida al mínimo necesario para una API
+  contentSecurityPolicy: {
+    directives: {
+      defaultSrc:     ["'none'"],
+      scriptSrc:      ["'none'"],
+      styleSrc:       ["'none'"],
+      imgSrc:         ["'none'"],
+      connectSrc:     ["'self'"],
+      frameAncestors: ["'none'"],
+      formAction:     ["'none'"],
+    },
+  },
+  // Prevenir clickjacking
+  frameguard: { action: 'deny' },
+  // No inferir MIME desde contenido
+  noSniff: true,
+  // Referrer mínimo — no filtrar URL interna en peticiones externas
+  referrerPolicy: { policy: 'strict-origin-when-cross-origin' },
+  // HSTS: forzar HTTPS en producción (1 año, incluir subdomains)
+  hsts: NODE_ENV === 'production'
+    ? { maxAge: 31_536_000, includeSubDomains: true, preload: true }
+    : false,
+  // Evitar detección de XSS legacy (IE)
+  xssFilter: true,
+  // Deshabilitar detección de tipo en IE
+  ieNoOpen: true,
 }));
 
-// CORS: solo permitir el origen del frontend configurado
+// CORS: lista blanca estricta; solo IPs/dominios conocidos
+const CORS_ALLOWED = NODE_ENV === 'production'
+  ? [FRONTEND_URL]
+  : [FRONTEND_URL, 'http://localhost:5500', 'http://127.0.0.1:5500', 'http://localhost:3000'];
+
 app.use(cors({
   origin: (origin, cb) => {
-    const allowed = [FRONTEND_URL, 'http://localhost:5500', 'http://127.0.0.1:5500'];
-    // Permitir también solicitudes sin origen (ej: Postman en desarrollo)
-    if (!origin || allowed.includes(origin) || NODE_ENV === 'development') {
+    // Sin origen = request same-origin o herramienta como curl (solo en dev)
+    if (!origin) {
+      return NODE_ENV === 'development'
+        ? cb(null, true)
+        : cb(new Error('CORS: se requiere cabecera Origin en producción'));
+    }
+    if (CORS_ALLOWED.includes(origin)) {
       cb(null, true);
     } else {
+      console.warn(`[CORS] Origen rechazado: ${origin}`);
       cb(new Error(`CORS: origen no permitido — ${origin}`));
     }
   },
   methods: ['POST', 'OPTIONS'],
   allowedHeaders: ['Content-Type'],
+  maxAge: 600, // Cachear preflight 10 minutos
 }));
 
 // Parseo de JSON con límite de tamaño (prevenir payload attacks)
@@ -119,23 +154,46 @@ transporter.verify((err) => {
  * @param {Object} body
  * @returns {{ valid: boolean, errors: string[] }}
  */
+// Límites de longitud por campo (protección adicional contra payloads maliciosos)
+const FIELD_LIMITS = {
+  name:    { min: 2,  max: 100 },
+  email:   { min: 6,  max: 254 },  // RFC 5321
+  company: { min: 0,  max: 120 },
+  phone:   { min: 0,  max: 20  },
+  service: { min: 0,  max: 80  },
+  message: { min: 20, max: 800 },
+};
+
 function validateContactBody(body) {
   const errors = [];
 
-  if (!body.name || String(body.name).trim().length < 2) {
-    errors.push('El nombre debe tener al menos 2 caracteres.');
+  const name    = String(body.name    ?? '').trim();
+  const email   = String(body.email   ?? '').trim().toLowerCase();
+  const message = String(body.message ?? '').trim();
+  const phone   = String(body.phone   ?? '').trim();
+  const company = String(body.company ?? '').trim();
+  const service = String(body.service ?? '').trim();
+
+  if (name.length < FIELD_LIMITS.name.min || name.length > FIELD_LIMITS.name.max) {
+    errors.push(`El nombre debe tener entre ${FIELD_LIMITS.name.min} y ${FIELD_LIMITS.name.max} caracteres.`);
   }
-  if (!body.email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(String(body.email).trim())) {
+  if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) || email.length > FIELD_LIMITS.email.max) {
     errors.push('El email no es válido.');
   }
-  if (!body.message || String(body.message).trim().length < 20) {
-    errors.push('El mensaje debe tener al menos 20 caracteres.');
+  if (message.length < FIELD_LIMITS.message.min) {
+    errors.push(`El mensaje debe tener al menos ${FIELD_LIMITS.message.min} caracteres.`);
   }
-  if (body.message && String(body.message).trim().length > 800) {
-    errors.push('El mensaje no puede superar los 800 caracteres.');
+  if (message.length > FIELD_LIMITS.message.max) {
+    errors.push(`El mensaje no puede superar los ${FIELD_LIMITS.message.max} caracteres.`);
   }
-  if (body.phone && !/^[\d\s\+\-\(\)]{0,20}$/.test(String(body.phone))) {
-    errors.push('El teléfono contiene caracteres no válidos.');
+  if (phone && (!/^[\d\s+\-()]{1,20}$/.test(phone) || phone.length > FIELD_LIMITS.phone.max)) {
+    errors.push('El teléfono contiene caracteres no válidos (máx. 20).');
+  }
+  if (company.length > FIELD_LIMITS.company.max) {
+    errors.push(`El nombre de empresa no puede superar ${FIELD_LIMITS.company.max} caracteres.`);
+  }
+  if (service.length > FIELD_LIMITS.service.max) {
+    errors.push(`El campo servicio no puede superar ${FIELD_LIMITS.service.max} caracteres.`);
   }
 
   return { valid: errors.length === 0, errors };
