@@ -7,21 +7,21 @@
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 :root {
-  /* Paleta Marina — Azules y Turquesas */
-  --ocean-dark:     #0369a1;  /* Azul profundo del océano */
-  --ocean-medium:   #0284c7;  /* Azul océano medio */
-  --ocean-light:    #0ea5e9;  /* Azul claro del cielo marino */
+  /* Paleta Marina — Azules y Turquesas VIBRANTES */
+  --ocean-dark:     #0369a1;   /* Azul profundo del océano */
+  --ocean-medium:   #0284c7;   /* Azul océano medio */
+  --ocean-light:    #1dd9ff;   /* Azul claro brillante del cielo marino */
 
-  --turquoise-400:  #06b6d4;  /* Turquesa vibrante */
-  --turquoise-500:  #06d6ff;  /* Turquesa luminoso */
-  --turquoise-600:  #0891b2;  /* Turquesa más oscuro */
+  --turquoise-400:  #00d4ff;   /* Turquesa neon vibrante */
+  --turquoise-500:  #00f5ff;   /* Turquesa luminoso ultra brillante */
+  --turquoise-600:  #0891b2;   /* Turquesa más oscuro */
 
-  --cyan-300:       #67e8f9;  /* Cyan claro */
-  --cyan-400:       #22d3ee;  /* Cyan estándar */
-  --cyan-500:       #06b6d4;  /* Cyan oscuro */
+  --cyan-300:       #5ffbff;   /* Cyan claro muy vibrante */
+  --cyan-400:       #00e5ff;   /* Cyan estándar brillante */
+  --cyan-500:       #00d4ff;   /* Cyan oscuro (= turquoise-400) */
 
-  --aqua-bright:    #00e5ff;  /* Aqua brillante */
-  --sea-foam:       #7fefef;  /* Espuma de mar */
+  --aqua-bright:    #00ffff;   /* Aqua puro brillante */
+  --sea-foam:       #7fefef;   /* Espuma de mar */
 
   /* Fondos oscuros (tema oscuro profundo tipo océano) */
   --bg-primary:    #020e1a;  /* Azul marino muy oscuro */
@@ -38,9 +38,9 @@
   --border:       rgba(6, 182, 212, 0.13);
   --border-hover: rgba(6, 182, 212, 0.42);
 
-  /* Gradientes — Marina */
-  --gradient-primary: linear-gradient(135deg, #06b6d4 0%, #0ea5e9 55%, #67e8f9 100%);
-  --gradient-soft:    linear-gradient(135deg, rgba(6,182,212,0.12) 0%, rgba(14,165,233,0.08) 100%);
+  /* Gradientes — Marina VIBRANTE */
+  --gradient-primary: linear-gradient(135deg, #00d4ff 0%, #1dd9ff 55%, #5ffbff 100%);
+  --gradient-soft:    linear-gradient(135deg, rgba(0,212,255,0.15) 0%, rgba(29,217,255,0.1) 100%);
 
   /* Tipografía */
   --font-display: 'Space Grotesk', sans-serif;
@@ -127,7 +127,7 @@ h3 { font-size: 1.35rem; }
   position: relative;
   overflow: hidden;
   transition: var(--transition);
-  box-shadow: 0 0 28px rgba(6, 182, 212, 0.28);
+  box-shadow: 0 0 32px rgba(0, 212, 255, 0.5), 0 0 16px rgba(0, 245, 255, 0.25);
   text-decoration: none;
   white-space: nowrap;
 }
@@ -1503,44 +1503,44 @@ h3 { font-size: 1.35rem; }
   background: linear-gradient(90deg,
     transparent 0%,
     rgba(0,212,255,0) 15%,
-    rgba(0,212,255,0.6) 40%,
-    rgba(0,255,136,0.8) 50%,
-    rgba(0,212,255,0.6) 60%,
+    rgba(0,212,255,0.8) 40%,
+    rgba(0,245,255,1) 50%,
+    rgba(0,212,255,0.8) 60%,
     rgba(0,212,255,0) 85%,
     transparent 100%
   );
   filter: blur(1px);
-  box-shadow: 0 0 12px 2px rgba(0,212,255,0.25);
+  box-shadow: 0 0 16px 3px rgba(0,212,255,0.45);
   animation: beamSweep 6s ease-in-out infinite;
 }
 .parallax-beam-2 {
   top: 62%;
   background: linear-gradient(90deg,
     transparent 0%,
-    rgba(168,85,247,0) 20%,
-    rgba(168,85,247,0.5) 45%,
-    rgba(192,132,252,0.7) 50%,
-    rgba(168,85,247,0.5) 55%,
-    rgba(168,85,247,0) 80%,
+    rgba(29,217,255,0) 20%,
+    rgba(29,217,255,0.7) 45%,
+    rgba(95,251,255,0.9) 50%,
+    rgba(29,217,255,0.7) 55%,
+    rgba(29,217,255,0) 80%,
     transparent 100%
   );
   filter: blur(1px);
-  box-shadow: 0 0 12px 2px rgba(168,85,247,0.2);
+  box-shadow: 0 0 16px 3px rgba(29,217,255,0.4);
   animation: beamSweep 9s ease-in-out infinite 3s;
 }
 .parallax-beam-3 {
   top: 45%;
   background: linear-gradient(90deg,
     transparent 0%,
-    rgba(0,255,136,0) 25%,
-    rgba(0,255,136,0.4) 48%,
-    rgba(0,255,136,0.6) 50%,
-    rgba(0,255,136,0.4) 52%,
-    rgba(0,255,136,0) 75%,
+    rgba(0,229,255,0) 25%,
+    rgba(0,229,255,0.6) 48%,
+    rgba(0,245,255,0.8) 50%,
+    rgba(0,229,255,0.6) 52%,
+    rgba(0,229,255,0) 75%,
     transparent 100%
   );
   filter: blur(0.5px);
-  box-shadow: 0 0 8px 1px rgba(0,255,136,0.15);
+  box-shadow: 0 0 12px 2px rgba(0,229,255,0.3);
   animation: beamSweep 7s ease-in-out infinite 1.5s;
 }
 
